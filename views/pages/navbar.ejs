@@ -1,0 +1,130 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="/products">Products</a>
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto gap-3">
+        <li class="nav-item">
+          <a class="nav-link active fw-semibold" href="/products">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="/products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="/products/createform"
+            >Add Products</a
+          >
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle fw-semibold"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Users
+          </a>
+          <ul class="dropdown-menu shadow-sm" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="/api/auth/loginPage">Login</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/api/auth/registerPage"
+                >Register</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="/api/auth/profile">Profile</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <style>
+    nav.navbar {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-link {
+      color: #343a40;
+      transition: color 0.3s ease;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      color: #0d6efd;
+      text-decoration: none;
+    }
+
+    .nav-link.active {
+      color: #0d6efd;
+      border-bottom: 3px solid #0d6efd;
+      padding-bottom: 0.35rem;
+    }
+
+    .dropdown-menu {
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      padding: 0.5rem 0;
+      min-width: 180px;
+    }
+
+    .dropdown-item {
+      padding: 0.5rem 1.5rem;
+      color: #495057;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #0d6efd;
+      color: white;
+      text-decoration: none;
+    }
+
+    .navbar-toggler {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar-toggler:hover {
+      background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    /* Responsive spacing */
+    @media (max-width: 991.98px) {
+      .navbar-nav {
+        gap: 1rem;
+      }
+    }
+  </style>
+</nav>
+
+<!-- Bootstrap 5 JS Bundle (make sure to include this) -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ENjdO4Dr2bkBIFxQpeo7mZbL1Q0ou31q9SY3iqf+0m5o2z4E/bYFjXErK5xzQ0Qg"
+  crossorigin="anonymous"
+></script>
