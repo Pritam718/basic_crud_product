@@ -51,8 +51,8 @@ class AuthController {
         user.image = imageUrl;
       }
       const data = await user.save();
-      // sendEmailVerificationOTP(req, user);
-      sendSms(req, user);
+      sendEmailVerificationOTP(req, user);
+      // sendSms(req, user);
       res.redirect("/api/auth/verify-otp-form");
       // return res.status(201).json({
       //   message: "User created successfully and otp send to your email",
