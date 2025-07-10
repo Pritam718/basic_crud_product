@@ -5,6 +5,12 @@ const bucket = require("../config/firebaseconfig");
 const pdf = require("pdf-creator-node");
 const options = require("../helper/options");
 
+const extractFilePathFromUrl = (url) => {
+  const decodedUrl = decodeURIComponent(url);
+  const matches = decodedUrl.match(/\/o\/(.*?)\?/);
+  return matches ? matches[1] : null;
+};
+
 class ProductController {
   async getProduct(req, res) {
     try {
@@ -91,11 +97,20 @@ class ProductController {
       // validation
       const { error, value } = productSchemaValidate.validate(dataBody);
 
+      const { productName, productDesc, price, size, color, brand } = req.body;
+
       if (error) {
         req.flash("error_msg", error.details[0].message);
         res.redirect(`/products/createform`);
       } else {
-        const productData = new Product(value);
+        const productData = new Product({
+          productName,
+          productDesc,
+          price,
+          size,
+          color,
+          brand,
+        });
         if (req.files) {
           const imagePaths = await Promise.all(
             req.files.map(async (file) => {
@@ -109,6 +124,7 @@ class ProductController {
               return `https://storage.googleapis.com/${bucket.name}/${firebasepath}`;
             })
           );
+
           productData.image = imagePaths;
         }
 
@@ -152,14 +168,28 @@ class ProductController {
 
       let updatedImagePaths = existingProduct.image;
       if (req.files && req.files.length > 0) {
-        existingProduct.image.map((img) => {
-          const imageFullPath = path.join(__dirname, "../../", img);
-          fs.unlink(imageFullPath, (err) => {
-            if (err) console.error("Failed to delete image:", err);
-          });
-        });
-
-        updatedImagePaths = req.files.map((file) => file.path);
+        for (const url of existingProduct.image) {
+          const filePath = extractFilePathFromUrl(url);
+          if (filePath) {
+            await bucket
+              .file(filePath)
+              .delete()
+              .catch((err) => {
+                console.error("Failed to delete from Firebase:", err.message);
+              });
+          }
+        }
+        const imagePaths = await Promise.all(
+          req.files.map(async (file) => {
+            const firebasepath = `products/${Date.now()}_${file.originalname}`;
+            await bucket.file(firebasepath).save(file.buffer, {
+              public: true,
+              metadata: { contentType: file.mimetype },
+            });
+            return `https://storage.googleapis.com/${bucket.name}/${firebasepath}`;
+          })
+        );
+        updatedImagePaths = imagePaths;
       }
 
       const { productName, productDesc, price, size, color, brand } = req.body;
